@@ -30,6 +30,14 @@ export default {
 </script>
 
 <style scoped>
+.v-app-bar-nav-icon {
+    color: white;
+}
+
+.v-toolbar-title {
+    color: #3b82f6;
+}
+
 .v-navigation-drawer {
     padding-top: 300px;
 }
