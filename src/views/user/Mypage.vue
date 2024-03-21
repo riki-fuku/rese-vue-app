@@ -61,9 +61,6 @@ export default {
         const selectedGenre = ref(null)
         const searchText = ref('')
 
-        const addToFavorites = (storeId) => {
-            // Add logic to handle adding to favorites
-        }
 
         const filteredStores = computed(() => {
             return stores.filter(store => {

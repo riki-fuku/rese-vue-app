@@ -71,8 +71,6 @@
 
 <script>
 import { useStoreStore } from '@/stores/stores'
-import { ref } from 'vue'
-import { computed } from 'vue'
 
 export default {
     name: 'Home',
@@ -80,48 +78,8 @@ export default {
         const storeStore = useStoreStore()
         const store = storeStore.store
 
-        // const areas = ['All area', '東京都', '神奈川県', '埼玉県']
-        // const genres = ['All area', '居酒屋', 'カフェ', 'ラーメン']
-
-        // const selectedArea = ref(null)
-        // const selectedGenre = ref(null)
-        // const searchText = ref('')
-
-        // const addToFavorites = (storeId) => {
-        //     // Add logic to handle adding to favorites
-        // }
-
-        // const filteredStores = computed(() => {
-        //     return stores.filter(store => {
-        //         let areaMatch = true
-        //         let genreMatch = true
-        //         let searchMatch = true
-
-        //         if (selectedArea.value && selectedArea.value !== 'All area') {
-        //             areaMatch = store.area.name === selectedArea.value
-        //         }
-
-        //         if (selectedGenre.value && selectedGenre.value !== 'All genre') {
-        //             genreMatch = store.genre.name === selectedGenre.value
-        //         }
-
-        //         if (searchText.value) {
-        //             searchMatch = store.name.toLowerCase().includes(searchText.value.toLowerCase())
-        //         }
-
-        //         return areaMatch && genreMatch && searchMatch
-        //     })
-        // })
-
         return {
             store,
-            // areas,
-            // genres,
-            // selectedArea,
-            // selectedGenre,
-            // searchText,
-            // filteredStores,
-            // addToFavorites
         }
     }
 }

@@ -1,7 +1,7 @@
 <template>
   <v-app>
 
-    <Menu></Menu>
+    <UserMenu></UserMenu>
 
     <v-main>
       <router-view></router-view>
@@ -11,19 +11,17 @@
 </template>
 
 <script>
-import Menu from './components/Menu.vue'
-import HelloWorld from './components/HelloWorld.vue'
+import UserMenu from './components/UserMenu.vue'
 
 export default {
   name: 'App',
 
   components: {
-    Menu,
-    HelloWorld,
+    UserMenu,
   },
 
   data: () => ({
     //
   }),
 }
-</script>
+</script>./components/UserMenu.vue
