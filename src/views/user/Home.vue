@@ -92,7 +92,6 @@ export default {
             selectedGenre,
             searchText,
             filteredStores,
-            addToFavorites
         }
     }
 }
