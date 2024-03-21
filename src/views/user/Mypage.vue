@@ -35,7 +35,7 @@
                     </v-card-subtitle>
                     <v-card-actions>
                         <v-btn text :to="`/store/${store.id}`" class="bg-blue-accent-4">詳細</v-btn>
-                        <v-btn icon :color="store.favorite ? 'red' : 'gray'" @click="addToFavorites(store.id)">
+                        <v-btn icon :color="store.favorite ? 'red' : 'gray'">
                             <v-icon>mdi-heart</v-icon>
                         </v-btn>
                     </v-card-actions>
@@ -62,10 +62,6 @@ export default {
         const selectedArea = ref(null)
         const selectedGenre = ref(null)
         const searchText = ref('')
-
-        const addToFavorites = (storeId) => {
-            // Add logic to handle adding to favorites
-        }
 
         const filteredStores = computed(() => {
             return stores.filter(store => {
