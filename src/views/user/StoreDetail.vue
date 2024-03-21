@@ -73,7 +73,7 @@
 import { useStoreStore } from '@/stores/stores'
 
 export default {
-    name: 'Home',
+    name: 'UserStoreDetail',
     setup() {
         const storeStore = useStoreStore()
         const store = storeStore.store

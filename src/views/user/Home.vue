@@ -51,7 +51,7 @@ import { ref } from 'vue'
 import { computed } from 'vue'
 
 export default {
-    name: 'Home',
+    name: 'UserHome',
     setup() {
         const storeStore = useStoreStore()
         const stores = storeStore.stores
@@ -63,6 +63,9 @@ export default {
         const selectedGenre = ref(null)
         const searchText = ref('')
 
+        const addToFavorites = (storeId) => {
+            // Add logic to handle adding to favorites
+        }
 
         const filteredStores = computed(() => {
             return stores.filter(store => {
