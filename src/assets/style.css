@@ -1,3 +1,4 @@
-.v-container {
-    max-width: 1264px;
+.v-main {
+    width: 1264px;
+    margin: 0 auto;
 }

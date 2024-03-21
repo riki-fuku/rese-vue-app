@@ -147,9 +147,27 @@ export const useStoreStore = defineStore('storeStore', {
                 image: 'top.jpg'
             },
 
-        ]
+        ],
+        store: {
+            id: 1,
+            name: '店舗1',
+            area: {
+                id: 1,
+                name: '東京都',
+            },
+            genre : {
+                id: 1,
+                name: '居酒屋'
+            },
+            favorite: {
+                id: 1,
+            },
+            description: '店舗1の説明',
+            image: '../top.jpg'
+        },
     }),
     getters: {
-        getStores: (state) => state.stores,
+        // getStores: (state) => state.stores,
+        // getStoreById: (state) => state.store,
     }
 })

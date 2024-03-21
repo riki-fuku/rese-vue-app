@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-container fluid width="100%">
         <!-- 検索条件 -->
         <v-row class="search">
             <v-col cols="12" sm="6" lg="3">
@@ -34,7 +34,7 @@
                         </v-sheet>
                     </v-card-subtitle>
                     <v-card-actions>
-                        <v-btn text :to="`/`" class="bg-blue-accent-4">詳細</v-btn>
+                        <v-btn text :to="`/store/${store.id}`" class="bg-blue-accent-4">詳細</v-btn>
                         <v-btn icon :color="store.favorite ? 'red' : 'gray'" @click="addToFavorites(store.id)">
                             <v-icon>mdi-heart</v-icon>
                         </v-btn>
@@ -42,11 +42,11 @@
                 </v-card>
             </v-col>
         </v-row>
-    </div>
+    </v-container>
 </template>
 
 <script>
-import { useStoreStore } from '../stores/stores'
+import { useStoreStore } from '@/stores/stores'
 import { ref } from 'vue'
 import { computed } from 'vue'
 
@@ -122,3 +122,4 @@ export default {
     justify-content: space-between;
 }
 </style>
+../../stores/stores

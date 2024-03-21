@@ -15,7 +15,7 @@
         <v-list-item to="/">
             <v-list-item-title>Logout</v-list-item-title>
         </v-list-item>
-        <v-list-item to="/">
+        <v-list-item to="/mypage">
             <v-list-item-title>Mypage</v-list-item-title>
         </v-list-item>
     </v-navigation-drawer>
