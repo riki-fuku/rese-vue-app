@@ -46,14 +46,14 @@
 </template>
 
 <script>
-import { useStoreStore } from '@/stores/stores'
+import { useShopStore } from '@/stores/shops'
 import { ref } from 'vue'
 import { computed } from 'vue'
 
 export default {
     name: 'UserMypage',
     setup() {
-        const storeStore = useStoreStore()
+        const storeStore = useShopStore()
         const stores = storeStore.stores
 
         const areas = ['All area', '東京都', '神奈川県', '埼玉県']
@@ -117,4 +117,3 @@ export default {
     justify-content: space-between;
 }
 </style>
-../../stores/stores

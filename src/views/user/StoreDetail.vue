@@ -70,12 +70,12 @@
 </template>
 
 <script>
-import { useStoreStore } from '@/stores/stores'
+import { useShopStore } from '@/stores/shops'
 
 export default {
     name: 'UserStoreDetail',
     setup() {
-        const storeStore = useStoreStore()
+        const storeStore = useShopStore()
         const store = storeStore.store
 
         return {

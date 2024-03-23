@@ -3,10 +3,12 @@
         <!-- 検索条件 -->
         <v-row class="search">
             <v-col cols="12" sm="6" lg="3">
-                <v-select v-model="selectedArea" :items="areas" label="All area"></v-select>
+                <v-select v-model="selectedArea" item-title="name" item-value="name" :items="areas" label="All area">
+                </v-select>
             </v-col>
             <v-col cols="12" sm="6" lg="3">
-                <v-select v-model="selectedGenre" :items="genres" label="All genre"></v-select>
+                <v-select v-model="selectedGenre" item-title="name" item-value="name" :items="genres" label="All genre">
+                </v-select>
             </v-col>
             <v-col cols="12" sm="6" lg="3">
                 <v-text-field v-model="searchText" label="Search...">
@@ -19,24 +21,24 @@
 
         <!-- 店舗一覧表示部分 -->
         <v-row>
-            <v-col cols="12" sm="6" lg="3" v-for="store in filteredStores" :key="store.id">
+            <v-col cols="12" sm="6" lg="3" v-for="shop in filteredShops" :key="shop.id">
                 <v-card>
-                    <v-img :src="store.image" class="white--text" height="200px" contain="false"
+                    <v-img :src="shop.image_url" class="white--text" height="200px" contain="false"
                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)">
                     </v-img>
-                    <v-card-title>{{ store.name }}</v-card-title>
+                    <v-card-title>{{ shop.name }}</v-card-title>
                     <v-card-subtitle class="pb-0">
                         <v-sheet>
-                            # {{ store.area.name }}
+                            # {{ shop.area.name }}
                         </v-sheet>
                         <v-sheet class="ml-2">
-                            # {{ store.genre.name }}
+                            # {{ shop.genre.name }}
                         </v-sheet>
                     </v-card-subtitle>
                     <v-card-actions>
-                        <v-btn text :to="`/store/${store.id}`" class="bg-blue-accent-4">詳細</v-btn>
-                        <v-btn icon :color="store.favorite ? 'red' : 'gray'">
-                            <v-icon>mdi-heart</v-icon>
+                        <v-btn text :to="`/shop/${shop.id}`" class="bg-blue-accent-4">詳細</v-btn>
+                        <v-btn icon :color="shop.favorite ? 'red' : 'gray'">
+                            <v-icon @click="toggleFavorite(shop.id)">mdi-heart</v-icon>
                         </v-btn>
                     </v-card-actions>
                 </v-card>
@@ -45,56 +47,81 @@
     </v-container>
 </template>
 
-<script>
-import { useStoreStore } from '@/stores/stores'
-import { ref } from 'vue'
-import { computed } from 'vue'
+<script setup>
+import { useShopStore } from '@/stores/shops'
+import { useAreaStore } from '@/stores/areas'
+import { useGenreStore } from '@/stores/genres'
+import { ref, computed, onMounted } from 'vue'
+import axios from 'axios';
 
-export default {
-    name: 'UserHome',
-    setup() {
-        const storeStore = useStoreStore()
-        const stores = storeStore.stores
+const shopStore = useShopStore()
+const areaStore = useAreaStore();
+const genreStore = useGenreStore();
 
-        const areas = ['All area', '東京都', '神奈川県', '埼玉県']
-        const genres = ['All genre', '居酒屋', 'カフェ', 'ラーメン']
+const shops = ref([])
+const areas = ref([])
+const genres = ref([])
+const selectedArea = ref(null)
+const selectedGenre = ref(null)
+const searchText = ref('')
 
-        const selectedArea = ref(null)
-        const selectedGenre = ref(null)
-        const searchText = ref('')
+onMounted(async () => {
+    await shopStore.fetchShops()
+    shops.value = shopStore.shops
 
-        const filteredStores = computed(() => {
-            return stores.filter(store => {
-                let areaMatch = true
-                let genreMatch = true
-                let searchMatch = true
+    await areaStore.fetchAreas()
+    areas.value = areaStore.areas
+    areas.value.unshift({ id: 0, name: 'All area' }) //  All areaを先頭に追加
 
-                if (selectedArea.value && selectedArea.value !== 'All area') {
-                    areaMatch = store.area.name === selectedArea.value
-                }
 
-                if (selectedGenre.value && selectedGenre.value !== 'All genre') {
-                    genreMatch = store.genre.name === selectedGenre.value
-                }
+    await genreStore.fetchGenres()
+    genres.value = genreStore.genres
+    genres.value.unshift({ id: 0, name: 'All genre' }) //  All genreを先頭に追加
+});
 
-                if (searchText.value) {
-                    searchMatch = store.name.toLowerCase().includes(searchText.value.toLowerCase())
-                }
+// 検索条件に合致する店舗を返す
+const filteredShops = computed(() => {
+    return shops.value.filter(shop => {
+        let areaMatch = true
+        let genreMatch = true
+        let searchMatch = true
 
-                return areaMatch && genreMatch && searchMatch
-            })
-        })
-
-        return {
-            areas,
-            genres,
-            selectedArea,
-            selectedGenre,
-            searchText,
-            filteredStores,
+        if (selectedArea.value && selectedArea.value !== 'All area') {
+            areaMatch = shop.area.name === selectedArea.value
         }
+
+        if (selectedGenre.value && selectedGenre.value !== 'All genre') {
+            genreMatch = shop.genre.name === selectedGenre.value
+        }
+
+        if (searchText.value) {
+            searchMatch = shop.name.toLowerCase().includes(searchText.value.toLowerCase())
+        }
+
+        return areaMatch && genreMatch && searchMatch
+    })
+})
+
+// お気に入り登録/解除処理
+const toggleFavorite = async (shopId) => {
+    try {
+        const response = await axios.post(import.meta.env.VITE_API_URL + '/favorite', {
+            shop_id: shopId,
+            user_id: 1
+        });
+
+        // POSTが成功した場合の処理を追加
+        if (response.status === 200) {
+            const shop = shops.value.find(shop => shop.id === shopId)
+            shop.favorite = !shop.favorite
+        } else {
+            // POSTが成功したが、レスポンスステータスが異常な場合の処理を行う
+            console.error("POST request failed:", response.status);
+        }
+    } catch (error) {
+        console.error("POST request failed:", error);
     }
-}
+};
 </script>
 
 <style scoped>
@@ -117,4 +144,3 @@ export default {
     justify-content: space-between;
 }
 </style>
-../../stores/stores

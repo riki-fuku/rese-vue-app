@@ -15,13 +15,11 @@ import UserMenu from './components/UserMenu.vue'
 
 export default {
   name: 'App',
-
   components: {
     UserMenu,
   },
-
   data: () => ({
     //
   }),
 }
-</script>./components/UserMenu.vue
+</script>
