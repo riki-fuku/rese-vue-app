@@ -1,7 +1,25 @@
 <template>
   <v-app>
-    <router-view></router-view>
+
+    <UserMenu></UserMenu>
+
+    <v-main>
+      <router-view></router-view>
+    </v-main>
+
   </v-app>
 </template>
 
-<script setup></script>
+<script>
+import UserMenu from './components/UserMenu.vue'
+
+export default {
+  name: 'App',
+  components: {
+    UserMenu,
+  },
+  data: () => ({
+    //
+  }),
+}
+</script>
