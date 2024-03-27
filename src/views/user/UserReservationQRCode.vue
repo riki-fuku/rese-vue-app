@@ -19,14 +19,14 @@
 import { ref, onMounted } from 'vue'
 import UserMenu from '@/components/UserMenu.vue'
 import VueQrcode from '@chenfengyuan/vue-qrcode';
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const reservationId = route.params.reservationId
+// const reservationId = route.params.reservationId
 
 const loading = ref(false) // ローディングフラグ
 
-const router = useRouter()
+// const router = useRouter()
 const path = route.query.page // TODO::URLの取得方法検討
 console.log(path)
 

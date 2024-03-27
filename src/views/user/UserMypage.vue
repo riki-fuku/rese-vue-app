@@ -75,7 +75,7 @@
                 <v-col cols="12" sm="12" lg="6">
                     <p class="pa-5 text-h5 font-weight-bold">お気に入り店舗</p>
                     <v-row>
-                        <v-col cols="12" sm="12" lg="6" v-for="favorite in favorites">
+                        <v-col cols="12" sm="12" lg="6" v-for="favorite in favorites" :key="favorite.id">
                             <v-card>
                                 <v-img :src="favorite.shop.image_url" class="" height="200px" contain="false"
                                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)">

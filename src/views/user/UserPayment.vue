@@ -54,6 +54,7 @@ const submitPayment = async () => {
             stripeToken: token.id,
             shop_id: route.params.shopId
         }).then(function (response) {
+            console.log(response);
             // 完了画面に遷移
             router.push({
                 name: 'UserComplete',

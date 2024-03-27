@@ -39,7 +39,7 @@
 
                             <!-- 予約時間 -->
                             <select class="px-2 py-1 w-50 bg-white rounded" v-model="reservationTime.value.value">
-                                <option v-for="reservationTime in reservationTimeList" :value="reservationTime">
+                                <option v-for="reservationTime in reservationTimeList" :value="reservationTime" :key="reservationTime">
                                     {{ reservationTime }}
                                 </option>
                             </select>
@@ -47,7 +47,7 @@
 
                             <!-- 予約人数 -->
                             <select class="px-2 py-1 w-50 bg-white rounded" v-model="partySize.value.value">
-                                <option v-for="partySize in partySizeList" :value="partySize">
+                                <option v-for="partySize in partySizeList" :value="partySize" :key="partySize">
                                     {{ partySize }}人
                                 </option>
                             </select>
@@ -147,6 +147,7 @@ const submit = handleSubmit(values => {
         reservation_time: values.reservationTime,
         party_size: values.partySize,
     }).then(function (response) {
+        console.log(response);
         // 完了画面に遷移
         router.push({
             name: 'UserComplete',
