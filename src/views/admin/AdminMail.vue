@@ -12,7 +12,7 @@
                         <td>
                             <select class="border" v-model="emailTemplateId.value"
                                 @change="writeMailTemplate(emailTemplateId.value)">
-                                <option v-for="emailTemplate in emailTemplateList" :key="emailTemplateId.value"
+                                <option v-for="emailTemplate in emailTemplateList" :key="emailTemplate.id"
                                     :value="emailTemplate.id">
                                     {{ emailTemplate.name }}
                                 </option>
