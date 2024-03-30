@@ -1,5 +1,5 @@
 <template>
-    <AdminMenu></AdminMenu>
+    <AgentMenu></AgentMenu>
 
     <v-main color="gray-lighten-2">
         <v-container fluid width="100%" v-if="loading">
@@ -54,7 +54,7 @@
                 <v-card>
                     <v-card-title>プレビュー</v-card-title>
 
-                    <p class="text-red-500 text-sm" v-if="errorMessage">
+                    <p class="text-red" v-if="errorMessage">
                         {{ errorMessage }}
                     </p>
 
@@ -66,7 +66,7 @@
                     </v-card-text>
                     <v-card-actions class="w-25 mx-auto my-5 flex justify-between">
                         <v-btn @click="previewModalFlg = false" class="bg-grey">キャンセル</v-btn>
-                        <v-btn @click="sendMail()" class="bg-deep-orange-darken-1">送信</v-btn>
+                        <v-btn @click="sendMail()" class="bg-teal-lighten-1">送信</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -82,7 +82,7 @@
 
 <script setup>
 import { ref, onMounted, reactive } from 'vue'
-import AdminMenu from '@/components/AdminMenu.vue'
+import AgentMenu from '@/components/AgentMenu.vue'
 import { useEmaiTtemplatesStore } from '@/stores/email_templates'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
@@ -90,7 +90,7 @@ import { useRouter } from 'vue-router'
 const emaiTtemplatesStore = useEmaiTtemplatesStore()
 const router = useRouter()
 
-const userType = '1' // 1:管理者
+const userType = '2' // 2:店舗代表者
 const loading = ref(false) // ローディングフラグ
 const emailTemplateList = ref(null)  // メールテンプレートリスト
 
@@ -143,7 +143,7 @@ const sendMail = async () => {
             if (response.status === 200) {
                 // 完了画面に遷移
                 router.push({
-                    name: 'AdminComplete',
+                    name: 'AgentComplete',
                     state: { message: 'メール送信完了しました。' }
                 })
             } else {
@@ -192,19 +192,8 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.search {
-    display: flex;
-    padding: 0 16px;
-    justify-content: flex-end;
-}
-
 .v-card-actions {
     justify-content: space-between;
-}
-
-.v-card-subtitle {
-    display: flex;
-    padding: 0 16px;
 }
 
 tr {

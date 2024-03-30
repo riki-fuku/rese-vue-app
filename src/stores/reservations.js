@@ -15,7 +15,7 @@ export const useReservationStore = defineStore('reservations', {
                 console.error("API call failed:", error);
             }
         },
-        // 店舗IDより店舗情報を取得
+        // ユーザーIDより店舗情報を取得
         async fetchReservationByUserId(userId) {
             try {
                 const response = await axios.get(import.meta.env.VITE_API_URL + '/reservations/' + userId);
