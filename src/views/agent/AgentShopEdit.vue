@@ -130,7 +130,6 @@ const openingTime = reactive({ value: '', error_message: '' })
 const closingTime = reactive({ value: '', error_message: '' })
 const topImage = reactive({ value: '', error_message: '' })
 const errorMessage = ref('') // エラーメッセージ
-const error = ref('') // APIエラー
 
 let timeList = ref([]) // 24時間で15分刻みの時間リスト
 

@@ -118,7 +118,6 @@ const loading = ref(false) // ローディングフラグ
 const areas = ref([])
 const genres = ref([])
 
-const shopId = ref('') // 店舗ID
 const name = reactive({ value: '', error_message: '' })
 const areaId = reactive({ value: '', error_message: '' })
 const genreId = reactive({ value: '', error_message: '' })
@@ -127,19 +126,25 @@ const openingTime = reactive({ value: '', error_message: '' })
 const closingTime = reactive({ value: '', error_message: '' })
 const topImage = reactive({ value: '', error_message: '' })
 const errorMessage = ref('') // エラーメッセージ
-const error = ref('') // APIエラー
 
 let timeList = ref([]) // 24時間で15分刻みの時間リスト
 
 // 入力欄のクリア
 const resetShop = async () => {
-    name = { value: '', error_message: '' }
-    areaId = { value: '', error_message: '' }
-    genreId = { value: '', error_message: '' }
-    description = { value: '', error_message: '' }
-    openingTime = { value: '', error_message: '' }
-    closingTime = { value: '', error_message: '' }
-    topImage = { value: '', error_message: '' }
+    name.value = ''
+    name.error_message = ''
+    areaId.value = ''
+    areaId.error_message = ''
+    genreId.value = ''
+    genreId.error_message = ''
+    description.value = ''
+    description.error_message = ''
+    openingTime.value = ''
+    openingTime.error_message = ''
+    closingTime.value = ''
+    closingTime.error_message = ''
+    topImage.value = ''
+    topImage.error_message = ''
 }
 
 // 店舗情報新規登録
