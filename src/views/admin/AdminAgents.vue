@@ -15,7 +15,7 @@
                     <th>有効フラグ</th>
                     <th class="w-25">アクション</th>
                 </tr>
-                <tr v-for="shopUser in shopUsers"
+                <tr v-for="shopUser in shopUsers" :key="shopUser.id"
                     :class="shopUser.invalid_flag == 0 ? 'bg-grey-lighten-1' : 'bg-white'">
                     <td class="border text-center">
                         <div v-if="shopUser.shop">
@@ -165,7 +165,8 @@ const editModalShopUserId = ref(null) // 編集モーダルの店舗代表者ID
 const name = reactive({ value: '', error_message: '' })
 const email = reactive({ value: '', error_message: '' })
 const password = reactive({ value: '', error_message: '' })
-const errorMessage = ref('')
+const errorMessage = ref('') // エラーメッセージ
+const error = ref('') // APIエラー
 
 // 新規モーダルを開く
 const showInsertModal = () => {

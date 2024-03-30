@@ -8,7 +8,7 @@ export const useEmaiTtemplatesStore = defineStore('email_templates', {
     actions: {
         async fetchEmaiTtemplates(userType) {
             try {
-                const response = await axios.get(import.meta.env.VITE_API_URL + '/email_templates/1');
+                const response = await axios.get(import.meta.env.VITE_API_URL + '/email_templates/' + userType);
                 this.emaiTtemplates = response.data;
             } catch (error) {
                 console.error("API call failed:", error);

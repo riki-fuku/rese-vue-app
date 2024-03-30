@@ -10,7 +10,7 @@
                     <tr>
                         <th>テンプレート</th>
                         <td>
-                            <select class="border" v-model="emailTemplateId.value"
+                            <select class="border" v-model="emailTemplateId.value" :key="emailTemplateId.value"
                                 @change="writeMailTemplate(emailTemplateId.value)">
                                 <option v-for="emailTemplate in emailTemplateList" :value="emailTemplate.id">
                                     {{ emailTemplate.name }}
@@ -96,7 +96,8 @@ const emailTemplateList = ref(null)  // メールテンプレートリスト
 const emailTemplateId = reactive({ value: '', error_message: '' })
 const emailSubject = reactive({ value: '', error_message: '' })
 const emailBody = reactive({ value: '', error_message: '' })
-const errorMessage = ref('')
+const errorMessage = ref('') // エラーメッセージ
+const error = ref('') // APIエラー
 
 const previewModalFlg = ref(false); // プレビューモーダル表示フラグ
 
