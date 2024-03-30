@@ -10,9 +10,10 @@
                     <tr>
                         <th>テンプレート</th>
                         <td>
-                            <select class="border" v-model="emailTemplateId.value" :key="emailTemplateId.value"
+                            <select class="border" v-model="emailTemplateId.value"
                                 @change="writeMailTemplate(emailTemplateId.value)">
-                                <option v-for="emailTemplate in emailTemplateList" :value="emailTemplate.id">
+                                <option v-for="emailTemplate in emailTemplateList" :key="emailTemplateId.value"
+                                    :value="emailTemplate.id">
                                     {{ emailTemplate.name }}
                                 </option>
                             </select>
