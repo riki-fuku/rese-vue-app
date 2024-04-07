@@ -2,7 +2,7 @@
 
 ### 飲食店予約管理システム
 
-![TOP画像](src/public/top_image.jpg "top")
+![TOP画像](public/top_image.jpg "top")
 
 ### サービス名
 
