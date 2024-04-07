@@ -1,5 +1,5 @@
 <template>
-    <AdminMenu></AdminMenu>
+    <AdminMenu />
 
     <v-main color="gray-lighten-2">
         <v-container fluid width="100%" v-if="loading">

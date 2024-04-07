@@ -1,5 +1,5 @@
 <template>
-    <UserMenu></UserMenu>
+    <UserMenu />
 
     <v-main color="gray-lighten-2">
         <v-container fluid width="100%" v-if="loading">
