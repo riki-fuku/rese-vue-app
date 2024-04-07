@@ -1,5 +1,5 @@
 <template>
-    <AgentMenu></AgentMenu>
+    <AgentMenu />
 
     <v-main color="gray-lighten-2">
         <v-container fluid width="100%" v-if="loading">
@@ -80,7 +80,7 @@
                     <tr>
                         <th class="bg-grey">店舗TOP画像</th>
                         <td>
-                            <input type="file" name="image" class="w-full" ref="fileInput">
+                            <input type="file" class="w-full" @change="handleFileChange" accept="image/*">
                             <p class="text-red" v-if="topImage.error_message">
                                 {{ topImage.error_message }}
                             </p>
@@ -91,7 +91,7 @@
 
                 <div class="w-25 mx-auto mt-10 flex justify-between">
                     <v-btn color="primary" @click="resetShop()">クリア</v-btn>
-                    <v-btn color="primary" @click="updateShop()">変更</v-btn>
+                    <v-btn color="primary" @click="storeShop()">登録</v-btn>
                 </div>
             </v-sheet>
         </v-container>
@@ -127,7 +127,9 @@ const closingTime = reactive({ value: '', error_message: '' })
 const topImage = reactive({ value: '', error_message: '' })
 const errorMessage = ref('') // エラーメッセージ
 
-let timeList = ref([]) // 24時間で15分刻みの時間リスト
+const selectedImage = ref(null);
+
+let timeList = []; // 24時間で15分刻みの時間リスト
 
 // 入力欄のクリア
 const resetShop = async () => {
@@ -147,18 +149,29 @@ const resetShop = async () => {
     topImage.error_message = ''
 }
 
+// ファイル選択時の処理
+const handleFileChange = (event) => {
+    selectedImage.value = event.target.files[0];
+};
+
 // 店舗情報新規登録
-const updateShop = async () => {
+const storeShop = async () => {
     // バリデーション
     if (validateShop()) {
         try {
-            const response = await axios.post(import.meta.env.VITE_API_URL + '/shop/store', {
-                name: name.value,
-                area_id: areaId.value,
-                genre_id: genreId.value,
-                description: description.value,
-                opening_time: openingTime.value,
-                closing_time: closingTime.value,
+            const formData = new FormData();
+            formData.append('name', name.value);
+            formData.append('area_id', areaId.value);
+            formData.append('genre_id', genreId.value);
+            formData.append('description', description.value);
+            formData.append('opening_time', openingTime.value);
+            formData.append('closing_time', closingTime.value);
+            formData.append('image', selectedImage.value);
+
+            const response = await axios.post(import.meta.env.VITE_API_URL + '/shop/store', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
 
             // POSTが成功した場合の処理を追加
@@ -167,7 +180,7 @@ const updateShop = async () => {
                 router.push({
                     name: 'AgentComplete',
                     state: { message: '店舗情報の新規登録が完了しました。' }
-                })
+                });
             } else {
                 // POSTが成功したが、レスポンスステータスが異常な場合の処理を行う
                 console.error("POST request failed:", response.status);
@@ -231,40 +244,39 @@ const validateShop = () => {
     }
 
     // 店舗TOP画像のチェック
-    // if (!validateFile()) {
-    //     return false;
-    // }
+    if (!validateFile()) {
+        return false;
+    }
 
     return true;
 }
 
 // 画像ファイルのバリデーション
-// const validateFile = () => {
-//     const file = $refs.fileInput.files[0];
-//     const maxSize = 1024 * 1024 * 5; // 5MBまでのみ許可
-//     const validTypes = ['image/jpeg']; // jpegのみ許可
+const validateFile = () => {
+    const file = selectedImage.value;
+    const maxSize = 1024 * 1024 * 2; // 2MBまでのみ許可
+    const validTypes = ['image/jpeg']; // jpegのみ許可
 
-//     if (file) {
-//         if (file.size > maxSize) {
-//             topImage.error_message = 'ファイルサイズが大きすぎます。5MB以下のファイルを選択してください。';
-//             return false;
-//         } else if (!validTypes.includes(file.type)) {
-//             topImage.error_message = '無効なファイルタイプです。JPEGファイルのみアップロードできます。';
-//             return false;
-//         } else {
-//             topImage.value = file;
-//             topImage.error_message = '';
-//         }
-//     } else {
-//         topImage.error_message = '';
-//     }
+    if (file) {
+        if (file.size > maxSize) {
+            topImage.error_message = 'ファイルサイズが大きすぎます。2MB以下のファイルを選択してください。';
+            return false;
+        } else if (!validTypes.includes(file.type)) {
+            topImage.error_message = '無効なファイルタイプです。JPEGファイルのみアップロードできます。';
+            return false;
+        } else {
+            topImage.value = file;
+            topImage.error_message = '';
+        }
+    } else {
+        topImage.error_message = '画像を選択してください';
+    }
 
-//     return true;
-// }
+    return true;
+}
 
 // 24時間で15分刻みの時間リストを返す
 const getTimeList = () => {
-    timeList = []
     const startHour = 0
     const endHour = 24
     for (let hour = startHour; hour < endHour; hour++) {
