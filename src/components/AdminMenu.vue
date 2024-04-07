@@ -12,16 +12,32 @@
         <v-list-item to="/admin">
             <v-list-item-title class="text-center text-deep-orange-darken-1">Home</v-list-item-title>
         </v-list-item>
-        <v-list-item to="/">
+        <v-list-item @click="logout()">
             <v-list-item-title class="text-center text-deep-orange-darken-1">Logout</v-list-item-title>
         </v-list-item>
     </v-navigation-drawer>
 </template>
 
-<script>
-export default {
-    data: () => ({
-        showMenu: false
+<script setup>
+import { ref } from 'vue'
+import axios from 'axios';
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const showMenu = ref(false)
+
+const logout = () => {
+    // トークンを取得
+    let token = localStorage.getItem('admin_auth_token');
+
+    axios.post(import.meta.env.VITE_URL + '/admin/logout', {}, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(response => {
+        console.log(response.data);
+        router.push('/admin/login')
     })
 }
 </script>
@@ -29,10 +45,6 @@ export default {
 <style scoped>
 .v-app-bar-nav-icon {
     color: white;
-}
-
-.v-toolbar-title {
-    color: #3b82f6;
 }
 
 .v-navigation-drawer {

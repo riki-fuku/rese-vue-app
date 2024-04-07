@@ -12,7 +12,7 @@
         <v-list-item to="/">
             <v-list-item-title>Home</v-list-item-title>
         </v-list-item>
-        <v-list-item to="/">
+        <v-list-item @click="logout()">
             <v-list-item-title>Logout</v-list-item-title>
         </v-list-item>
         <v-list-item to="/mypage">
@@ -21,10 +21,25 @@
     </v-navigation-drawer>
 </template>
 
-<script>
-export default {
-    data: () => ({
-        showMenu: false
+<script setup>
+import { ref } from 'vue'
+import axios from 'axios';
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const showMenu = ref(false)
+const logout = () => {
+    // トークンを取得
+    let token = localStorage.getItem('user_auth_token');
+
+    axios.post(import.meta.env.VITE_URL + '/logout', {}, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(response => {
+        console.log(response.data);
+        router.push('/login')
     })
 }
 </script>

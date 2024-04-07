@@ -9,24 +9,19 @@
     </v-app-bar>
 
     <v-navigation-drawer v-model="showMenu" absolute temporary style="width: 100vw;">
-        <v-list-item to="/">
-            <v-list-item-title>Home</v-list-item-title>
+        <v-list-item to="/login">
+            <v-list-item-title>Login</v-list-item-title>
         </v-list-item>
-        <v-list-item to="/">
-            <v-list-item-title>Logout</v-list-item-title>
-        </v-list-item>
-        <v-list-item to="/mypage">
-            <v-list-item-title>Mypage</v-list-item-title>
+        <v-list-item to="/registration">
+            <v-list-item-title>Registion</v-list-item-title>
         </v-list-item>
     </v-navigation-drawer>
 </template>
 
-<script>
-export default {
-    data: () => ({
-        showMenu: false
-    })
-}
+<script setup>
+import { ref } from 'vue'
+
+const showMenu = ref(false)
 </script>
 
 <style scoped>

@@ -10,7 +10,14 @@ export const useShopStore = defineStore('shops', {
         // 店舗一覧を取得
         async fetchShops() {
             try {
-                const response = await axios.get(import.meta.env.VITE_API_URL + '/shops');
+                // トークンを取得
+                let token = localStorage.getItem('user_auth_token');
+
+                const response = await axios.get(import.meta.env.VITE_API_URL + '/shops', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 this.shops = response.data;
             } catch (error) {
                 console.error("API call failed:", error);
@@ -19,7 +26,14 @@ export const useShopStore = defineStore('shops', {
         // 店舗IDより店舗情報を取得
         async fetchShopById(id) {
             try {
-                const response = await axios.get(import.meta.env.VITE_API_URL + '/shops/' + id);
+                // トークンを取得
+                let token = localStorage.getItem('user_auth_token');
+
+                const response = await axios.get(import.meta.env.VITE_API_URL + '/shops/' + id, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 this.shop = response.data;
             } catch (error) {
                 console.error("API call failed:", error);
