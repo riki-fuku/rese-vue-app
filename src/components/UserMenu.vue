@@ -45,7 +45,7 @@ const logout = () => {
         localStorage.removeItem('user_name');
 
         console.log(response.data);
-        router.push('/login')
+        router.push({ name: 'UserLogin' })
     })
 }
 </script>

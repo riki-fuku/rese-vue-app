@@ -198,9 +198,7 @@ onMounted(async () => {
     await shopStore.fetchShopById(route.params.shopId)
     if (Object.keys(shopStore.shop).length === 0) {
         console.error('shop is not found:', route.params.shopId)
-        router.push({
-            name: 'UserHome'
-        })
+        router.push({ name: 'UserHome' })
         return
     }
     shop.value = shopStore.shop

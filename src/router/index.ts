@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 // 一般ユーザー
 import UserLogin from '@/views/user/UserLogin.vue'
 import UserRegistration from '@/views/user/UserRegistration.vue'
+import UserVerifyEmail from '@/views/user/UserVerifyEmail.vue'
 import UserHome from '@/views/user/UserHome.vue'
 import UserShopDetail from '@/views/user/UserShopDetail.vue'
 import UserMypage from '@/views/user/UserMypage.vue'
@@ -59,6 +60,12 @@ const routes = [
         path: '/registration',
         name: 'UserRegistration',
         component: UserRegistration,
+        meta: { isUserLogin: true }
+    },
+    {
+        path: '/verify-email',
+        name: 'UserVerifyEmail',
+        component: UserVerifyEmail,
         meta: { isUserLogin: true }
     },
     {

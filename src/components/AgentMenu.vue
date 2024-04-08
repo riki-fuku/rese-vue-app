@@ -42,7 +42,7 @@ const logout = () => {
         localStorage.removeItem('agent_name');
 
         console.log(response.data);
-        router.push('/agent/login')
+        router.push({ name: 'AgentLogin' })
     })
 }
 </script>

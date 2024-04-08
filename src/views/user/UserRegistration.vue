@@ -64,9 +64,9 @@ const register = async () => {
         email: email.value,
         password: password.value
     }).then((response) => {
-        localStorage.setItem('user_auth_token', response.data.token);
+        console.log(response.data)
         // ログイン成功
-        router.push({ name: 'UserHome' })
+        router.push({ name: 'UserVerifyEmail' })
     }).catch((error) => {
         // ログイン失敗
         errorMessages.value = error.response.data.message

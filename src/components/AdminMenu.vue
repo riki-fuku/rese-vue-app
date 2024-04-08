@@ -42,7 +42,7 @@ const logout = () => {
         localStorage.removeItem('admin_name');
 
         console.log(response.data);
-        router.push('/admin/login')
+        router.push({ name: 'AdminLogin' })
     })
 }
 </script>

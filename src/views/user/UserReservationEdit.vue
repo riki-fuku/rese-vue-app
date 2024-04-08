@@ -198,9 +198,7 @@ onMounted(async () => {
 
     if (Object.keys(reservationStore.reservation).length === 0) {
         console.error('reservation is not found:', route.params.reservationId)
-        router.push({
-            name: 'UserHome'
-        })
+        router.push({ name: 'UserHome' })
         return
     }
     reservation.value = reservationStore.reservation
