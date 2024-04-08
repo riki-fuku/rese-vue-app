@@ -24,16 +24,9 @@ export const useShopStore = defineStore('shops', {
             }
         },
         // 店舗IDより店舗情報を取得
-        async fetchShopById(id) {
+        async fetchShopById(shopId) {
             try {
-                // トークンを取得
-                let token = localStorage.getItem('user_auth_token');
-
-                const response = await axios.get(import.meta.env.VITE_API_URL + '/shops/' + id, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+                const response = await axios.get(import.meta.env.VITE_API_URL + '/shops/' + shopId);
                 this.shop = response.data;
             } catch (error) {
                 console.error("API call failed:", error);

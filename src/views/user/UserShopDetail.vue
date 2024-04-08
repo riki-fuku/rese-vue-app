@@ -8,7 +8,7 @@
                 <!-- 店舗詳細表示部分 -->
                 <v-sheet class="px-3" width="50vw">
                     <v-sheet class="d-flex">
-                        <v-btn>
+                        <v-btn @click="router.go(-1)">
                             <v-icon>mdi-chevron-left</v-icon>
                         </v-btn>
                         <p class="ml-4 py-1 text-h5">{{ shop.name }}</p>
@@ -114,7 +114,7 @@ const { handleSubmit } = useForm({
         reservationDate(value) {
             if (!value) {
                 return '予約日を入力してください'
-            } else if (value < new Date().toISOString().split('T')[0]) {
+            } else if (value && value < new Date().toISOString().split('T')[0]) {
                 return '今日以降の日付を入力してください'
             } else {
                 return true
@@ -160,25 +160,19 @@ const submit = handleSubmit(values => {
     });
 })
 
-onMounted(async () => {
-    // 店舗情報を取得
-    await shopStore.fetchShopById(route.params.id)
-    shop.value = shopStore.shop
-
-    // 営業開始時間と終了時間を15分刻みで配列に格納
-    reservationTimeList.value = getTimeList(shop.value.opening_time, shop.value.closing_time)
-
-    // 予約人数の選択肢を取得
-    partySizeList.value = getPartySizeList()
-
-    // ローディングフラグをtrueにする
-    loading.value = true
-})
-
 // 開始時間と終了時間から15分刻みの時間リストを返す
 const getTimeList = (openingTime, closingTime) => {
-    const openHour = Number(openingTime.split(':')[0])
-    const closeHour = Number(closingTime.split(':')[0])
+    let openHour, closeHour;
+    if (typeof openingTime === 'string') {
+        openHour = Number(openingTime.split(':')[0]);
+    } else {
+        console.error('openingTime is not a string:', openingTime);
+    }
+    if (typeof closingTime === 'string') {
+        closeHour = Number(closingTime.split(':')[0]);
+    } else {
+        console.error('closingTime is not a string:', closingTime);
+    }
     const timeList = []
 
     for (let hour = openHour; hour < closeHour; hour++) {
@@ -198,6 +192,28 @@ const getPartySizeList = () => {
     }
     return partySizeList
 }
+
+onMounted(async () => {
+    // 店舗情報を取得
+    await shopStore.fetchShopById(route.params.shopId)
+    if (Object.keys(shopStore.shop).length === 0) {
+        console.error('shop is not found:', route.params.shopId)
+        router.push({
+            name: 'UserHome'
+        })
+        return
+    }
+    shop.value = shopStore.shop
+
+    // 営業開始時間と終了時間を15分刻みで配列に格納
+    reservationTimeList.value = getTimeList(shop.value.opening_time, shop.value.closing_time)
+
+    // 予約人数の選択肢を取得
+    partySizeList.value = getPartySizeList()
+
+    // ローディングフラグをtrueにする
+    loading.value = true
+})
 </script>
 
 <style scoped>
