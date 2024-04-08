@@ -62,6 +62,9 @@ const login = async () => {
                 password: password.value
             }).then((response) => {
                 localStorage.setItem('admin_auth_token', response.data.token);
+                localStorage.setItem('admin_id', response.data.user.id);
+                localStorage.setItem('admin_name', response.data.user.name);
+
                 // ログイン成功
                 router.push({ name: 'AdminHome' })
             }).catch((error) => {

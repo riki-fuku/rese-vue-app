@@ -29,126 +29,167 @@ import AdminAgents from '@/views/admin/AdminAgents.vue'
 import AdminMail from '@/views/admin/AdminMail.vue'
 import AdminComplete from '@/views/admin/AdminComplete.vue'
 
+// 一般ユーザーログイン確認
+function isUserAuthenticated() {
+    // localStorageにuser_auth_tokenが存在するかチェック
+    return !!localStorage.getItem('user_auth_token');
+}
+
+// 店舗代表者ログイン確認
+function isAgentAuthenticated() {
+    // localStorageにagent_auth_tokenが存在するかチェック
+    return !!localStorage.getItem('agent_auth_token');
+}
+
+// 管理者ログイン確認
+function isAdminAuthenticated() {
+    // localStorageにadmin_auth_tokenが存在するかチェック
+    return !!localStorage.getItem('admin_auth_token');
+}
+
 const routes = [
     // 一般ユーザー画面
     {
         path: '/login',
         name: 'UserLogin',
-        component: UserLogin
+        component: UserLogin,
+        meta: { isUserLogin: true }
     },
     {
         path: '/registration',
         name: 'UserRegistration',
-        component: UserRegistration
+        component: UserRegistration,
+        meta: { isUserLogin: true }
     },
     {
         path: '/',
         name: 'UserHome',
-        component: UserHome
+        component: UserHome,
+        meta: { requiresUserAuth: true }
     },
-        {
+    {
         path: '/mypage',
         name: 'UserMypage',
-        component: UserMypage
+        component: UserMypage,
+        meta: { requiresUserAuth: true }
     },
     {
         path: '/shop/:shopId',
         name: 'UserShopDetail',
-        component: UserShopDetail
+        component: UserShopDetail,
+        meta: { requiresUserAuth: true }
     },
     {
         path: '/reservation/:reservationId',
         name: 'UserReservationEdit',
-        component: UserReservationEdit
+        component: UserReservationEdit,
+        meta: { requiresUserAuth: true }
     },
     {
         path: '/reservation/qrcode/:reservationId',
         name: 'UserReservationQRCode',
-        component: UserReservationQRCode
+        component: UserReservationQRCode,
+        meta: { requiresUserAuth: true }
     },
     {
         path: '/payment/:shopId',
         name: 'UserPayment',
-        component: UserPayment
+        component: UserPayment,
+        meta: { requiresUserAuth: true }
     },
     {
         path: '/complete',
         name: 'UserComplete',
-        component: UserComplete
+        component: UserComplete,
+        meta: { requiresUserAuth: true }
     },
 
     // 店舗代表者画面
     {
         path: '/agent/login',
         name: 'AgentLogin',
-        component: AgentLogin
+        component: AgentLogin,
+        meta: { isAgentLogin: true }
     },
     {
         path: '/agent',
         name: 'AgentHome',
-        component: AgentHome
+        component: AgentHome,
+        meta: { requiresAgentAuth: true }
     },
     {
         path: '/agent/mail',
         name: 'AgentMail',
-        component: AgentMail
+        component: AgentMail,
+        meta: { requiresAgentAuth: true }
     },
     {
         path: '/agent/payment/qrcode',
         name: 'AgentPaymentQRCode',
-        component: AgentPaymentQRCode
+        component: AgentPaymentQRCode,
+        meta: { requiresAgentAuth: true }
     },
     {
         path: '/agent/reservations',
         name: 'AgentReservasions',
-        component: AgentReservasions
+        component: AgentReservasions,
+        meta: { requiresAgentAuth: true }
     },
     {
         path: '/agent/reservation/:reservationId',
         name: 'AgentReservationDeteil',
-        component: AgentReservationDeteil
+        component: AgentReservationDeteil,
+        meta: { requiresAgentAuth: true }
     },
     {
         path: '/agent/shop/creation',
         name: 'AgentShopCreation',
-        component: AgentShopCreation
+        component: AgentShopCreation,
+        meta: { requiresAgentAuth: true }
     },
     {
         path: '/agent/shop/edit',
         name: 'AgentShopEdit',
-        component: AgentShopEdit
+        component: AgentShopEdit,
+        meta: { requiresAgentAuth: true }
     },
         {
         path: '/agent/complete',
         name: 'AgentComplete',
-        component: AgentComplete
+        component: AgentComplete,
+        meta: { requiresAgentAuth: true }
     },
 
     // 管理者画面
     {
         path: '/admin/login',
         name: 'AdminLogin',
-        component: AdminLogin
+        component: AdminLogin,
+        meta: { isAdminLogin: true }
     },
     {
         path: '/admin',
         name: 'AdminHome',
-        component: AdminHome
+        component: AdminHome,
+        meta: { requiresAdminAuth: true }
     },
     {
         path: '/admin/agents',
         name: 'AdminAgents',
-        component: AdminAgents
+        component: AdminAgents,
+        meta: { requiresAdminAuth: true }
     },
     {
         path: '/admin/mail',
         name: 'AdminMail',
-        component: AdminMail
+        component: AdminMail,
+        meta: { requiresAdminAuth: true }
     },
     {
         path: '/admin/complete',
         name: 'AdminComplete',
-        component: AdminComplete
+        component: AdminComplete,
+        meta: { requiresAdminAuth: true }
     }
 ]
 
@@ -156,5 +197,30 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 })
+
+router.beforeEach((to, from, next) => {
+
+    if (to.matched.some(record => record.meta.isUserLogin) && isUserAuthenticated()) {
+        // ユーザーログイン画面にアクセスしようとした際、ログイン済みの場合はユーザーホーム画面にリダイレクト
+        next({ name: 'UserHome' });
+    } else if (to.matched.some(record => record.meta.isAgentLogin) && isAgentAuthenticated()) {
+        // 店舗代表者ログイン画面にアクセスしようとした際、ログイン済みの場合は店舗代表者ホーム画面にリダイレクト
+        next({ name: 'AgentHome' });
+    } else if (to.matched.some(record => record.meta.isAdminLogin) && isAdminAuthenticated()) {
+        // 管理者ログイン画面にアクセスしようとした際、ログイン済みの場合は管理者ホーム画面にリダイレクト
+        next({ name: 'AdminHome' });
+    } else if (to.matched.some(record => record.meta.requiresUserAuth) && !isUserAuthenticated()) {
+        // ユーザーログインが必要な画面にアクセスしようとした際、未ログインの場合はユーザーログイン画面にリダイレクト
+        next({ name: 'UserLogin' });
+    } else if (to.matched.some(record => record.meta.requiresAgentAuth) && !isAgentAuthenticated()) {
+        // 店舗代表者ログインが必要な画面にアクセスしようとした際、未ログインの場合は店舗代表者ログイン画面にリダイレクト
+        next({ name: 'AgentLogin' });
+    } else if (to.matched.some(record => record.meta.requiresAdminAuth) && !isAdminAuthenticated()) {
+        // 管理者ログインが必要な画面にアクセスしようとした際、未ログインの場合は管理者ログイン画面にリダイレクト
+        next({ name: 'AdminLogin' });
+    } else {
+        next();
+    }
+});
 
 export default router

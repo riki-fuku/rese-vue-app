@@ -62,6 +62,9 @@ const login = async () => {
                 password: password.value
             }).then((response) => {
                 localStorage.setItem('user_auth_token', response.data.token);
+                localStorage.setItem('user_id', response.data.user.id);
+                localStorage.setItem('user_name', response.data.user.name);
+
                 // ログイン成功
                 router.push({ name: 'UserHome' })
             }).catch((error) => {

@@ -36,6 +36,11 @@ const logout = () => {
             'Authorization': `Bearer ${token}`
         }
     }).then(response => {
+        // ローカルストレージのデータを削除
+        localStorage.removeItem('admin_auth_token');
+        localStorage.removeItem('admin_id');
+        localStorage.removeItem('admin_name');
+
         console.log(response.data);
         router.push('/admin/login')
     })

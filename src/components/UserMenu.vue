@@ -29,6 +29,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const showMenu = ref(false)
+
 const logout = () => {
     // トークンを取得
     let token = localStorage.getItem('user_auth_token');
@@ -38,6 +39,11 @@ const logout = () => {
             'Authorization': `Bearer ${token}`
         }
     }).then(response => {
+        // ローカルストレージのデータを削除
+        localStorage.removeItem('user_auth_token');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('user_name');
+
         console.log(response.data);
         router.push('/login')
     })

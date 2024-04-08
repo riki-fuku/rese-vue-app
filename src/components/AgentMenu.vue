@@ -36,6 +36,11 @@ const logout = () => {
             'Authorization': `Bearer ${token}`
         }
     }).then(response => {
+        // ローカルストレージのデータを削除
+        localStorage.removeItem('agent_auth_token');
+        localStorage.removeItem('agent_id');
+        localStorage.removeItem('agent_name');
+
         console.log(response.data);
         router.push('/agent/login')
     })
