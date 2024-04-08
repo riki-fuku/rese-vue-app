@@ -6,7 +6,7 @@
             <p class="pa-5 text-h5 font-weight-bold">決済用QRコード表示</p>
 
             <div class="text-center">
-                <vue-qrcode :value="path" :options="{ width: 600 }" />
+                <vue-qrcode :value="url" :options="{ width: 600 }" />
             </div>
         </v-container>
 
@@ -20,15 +20,14 @@
 import { ref, onMounted } from 'vue'
 import AgentMenu from '@/components/AgentMenu.vue'
 import VueQrcode from '@chenfengyuan/vue-qrcode';
-import { useRoute } from 'vue-router'
 
-const route = useRoute()
-// const reservationId = route.params.reservationId
+const reservationId = localStorage.getItem('agent_shop_id')
 
 const loading = ref(false) // ローディングフラグ
 
-// const router = useRouter()
-const path = route.query.page // TODO::URLの取得方法検討
+const path = import.meta.env.VITE_APP_URL
+const url = `${path}/reservation/${reservationId}`
+
 onMounted(async () => {
     // ローディングフラグをtrueにする
     loading.value = true

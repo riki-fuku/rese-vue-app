@@ -64,6 +64,7 @@ const login = async () => {
                 localStorage.setItem('agent_auth_token', response.data.token);
                 localStorage.setItem('agent_id', response.data.user.id);
                 localStorage.setItem('agent_name', response.data.user.name);
+                localStorage.setItem('agent_shop_id', response.data.user.shop_id);
 
                 // ログイン成功
                 router.push({ name: 'AgentHome' })
