@@ -3,7 +3,7 @@
 
     <v-main color="gray-lighten-2">
         <v-container fluid width="100%" v-if="loading">
-            <v-sheet class="w-75 mx-auto my-15 pa-10 bg-grey-lighten-3 rounded">
+            <v-sheet class="mx-auto my-15 pa-10 bg-grey-lighten-3 rounded">
                 <v-row class="d-flex">
 
                     <!-- 店舗検索画面表示 -->
@@ -60,10 +60,11 @@
 
                 </v-row>
 
-                <div class="d-flex justify-between">
-                    <v-btn text :to="`/agent/reservations`" class="my-5 bg-teal-lighten-1">予約一覧</v-btn>
+                <div class="w-50 mx-auto">
+                    <v-btn text :to="`/agent/reservations`" class="mr-10 my-5 bg-teal-lighten-1">予約一覧</v-btn>
                     <v-btn text :to="`/agent/payment/qrcode`" class="my-5 bg-teal-lighten-1">決済用QRコード表示</v-btn>
-                    <v-btn text :to="`/agent/shop/edit`" class="my-5 bg-teal-lighten-1">店舗情報編集</v-btn>
+                    <br>
+                    <v-btn text :to="`/agent/shop/edit`" class="mr-10 my-5 bg-teal-lighten-1">店舗情報編集</v-btn>
                     <v-btn text :to="`/agent/mail`" class="my-5 bg-teal-lighten-1">お知らせメール作成</v-btn>
                 </div>
             </v-sheet>
