@@ -104,6 +104,7 @@ const router = useRouter()
 const shopStore = useShopStore()
 
 const loading = ref(false) // ローディングフラグ
+const userId = localStorage.getItem('user_id') // ユーザーID
 const shop = ref(null) // 表示する店舗情報
 const reservationTimeList = ref(null) // 予約時間の選択肢
 const partySizeList = ref(1) // 予約人数の選択肢
@@ -144,7 +145,7 @@ const partySize = useField('partySize')
 const submit = handleSubmit(values => {
     axios.post(import.meta.env.VITE_API_URL + '/reservation', {
         shop_id: shop.value.id,
-        user_id: 1, // TODO::仮で1を設定
+        user_id: userId,
         reservation_date: values.reservationDate,
         reservation_time: values.reservationTime,
         party_size: values.partySize,

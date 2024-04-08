@@ -105,7 +105,7 @@ const toggleFavorite = async (shopId) => {
     try {
         const response = await axios.post(import.meta.env.VITE_API_URL + '/favorite', {
             shop_id: shopId,
-            user_id: 1
+            user_id: localStorage.getItem('user_id')
         });
 
         // POSTが成功した場合の処理を追加

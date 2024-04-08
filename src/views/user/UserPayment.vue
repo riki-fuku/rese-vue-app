@@ -38,6 +38,7 @@ let stripe, elements, cardElement;
 
 const route = useRoute()
 const router = useRouter()
+const userId = localStorage.getItem('user_id')
 
 const amount = ref(0)
 const errorMessages = ref('')
@@ -52,7 +53,8 @@ const submitPayment = async () => {
         axios.post(import.meta.env.VITE_API_URL + '/payment', {
             amount: amount.value,
             stripeToken: token.id,
-            shop_id: route.params.shopId
+            shop_id: route.params.shopId,
+            user_id: userId
         }).then(function (response) {
             console.log(response);
             // 完了画面に遷移

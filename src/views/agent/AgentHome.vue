@@ -79,6 +79,9 @@
 import { ref, onMounted } from 'vue'
 import AgentMenu from '@/components/AgentMenu.vue'
 import { useShopUsersStore } from '@/stores/shop_users'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const shopUsersStore = useShopUsersStore()
 
@@ -88,6 +91,11 @@ const shopUserWithShop = ref(null)
 
 onMounted(async () => {
     await shopUsersStore.fetchShopUserWithShop()
+    // 店舗情報がない場合は店舗情報作成画面に遷移
+    if (Object.keys(shopUsersStore.shopUserWithShop).length === 0) {
+        router.push({ name: 'AgentShopCreation' })
+        return
+    }
     shopUserWithShop.value = shopUsersStore.shopUserWithShop
 
     // ローディングフラグをtrueにする

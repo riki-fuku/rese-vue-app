@@ -26,7 +26,7 @@ const reservationId = localStorage.getItem('agent_shop_id')
 const loading = ref(false) // ローディングフラグ
 
 const path = import.meta.env.VITE_APP_URL
-const url = `${path}/reservation/${reservationId}`
+const url = `${path}/payment/${reservationId}`
 
 onMounted(async () => {
     // ローディングフラグをtrueにする

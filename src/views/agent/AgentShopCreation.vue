@@ -105,16 +105,19 @@
 <script setup>
 import { ref, onMounted, reactive } from 'vue'
 import AgentMenu from '@/components/AgentMenu.vue'
+import { useShopUsersStore } from '@/stores/shop_users'
 import { useAreaStore } from '@/stores/areas'
 import { useGenreStore } from '@/stores/genres'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
+const shopUsersStore = useShopUsersStore()
 const areaStore = useAreaStore()
 const genreStore = useGenreStore()
 const router = useRouter()
 
 const loading = ref(false) // ローディングフラグ
+const shopUserWithShop = ref(null)
 const areas = ref([])
 const genres = ref([])
 
@@ -168,8 +171,12 @@ const storeShop = async () => {
             formData.append('closing_time', closingTime.value);
             formData.append('image', selectedImage.value);
 
+            // トークンを取得
+            let token = localStorage.getItem('agent_auth_token');
+
             const response = await axios.post(import.meta.env.VITE_API_URL + '/shop/store', formData, {
                 headers: {
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
                 }
             });
@@ -288,6 +295,14 @@ const getTimeList = () => {
 }
 
 onMounted(async () => {
+    await shopUsersStore.fetchShopUserWithShop()
+    // 店舗情報が`ある場合は店舗代表者トップ画面に遷移
+    if (Object.keys(shopUsersStore.shopUserWithShop).length > 0) {
+        router.push({ name: 'AgentHome' })
+        return
+    }
+    shopUserWithShop.value = shopUsersStore.shopUserWithShop
+
     // エリア情報を取得
     await areaStore.fetchAreas()
     areas.value = areaStore.areas

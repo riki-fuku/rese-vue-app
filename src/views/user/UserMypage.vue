@@ -140,7 +140,8 @@ const reservationStore = useReservationStore()
 const favoriteStore = useFavoriteStore()
 
 const loading = ref(false) // ローディングフラグ
-const userName = 'User1' // TODO::ユーザー名仮置き
+const userId = localStorage.getItem('user_id') // ユーザーID
+const userName = localStorage.getItem('user_name') // ユーザー名
 
 const reservations = ref(null) // 表示するお気に入り店舗情報
 const favorites = ref(null) // 表示するお気に入り店舗情報
@@ -156,13 +157,13 @@ const toggleFavorite = async (shopId) => {
     try {
         const response = await axios.post(import.meta.env.VITE_API_URL + '/favorite', {
             shop_id: shopId,
-            user_id: 1
+            user_id: userId
         });
 
         // POSTが成功した場合の処理を追加
         if (response.status === 200) {
             // お気に入り一覧を再取得
-            await favoriteStore.fetchFavoriteByUserId(1) // TODO::user_id仮置き
+            await favoriteStore.fetchFavoriteByUserId(userId)
             favorites.value = favoriteStore.favorites
         } else {
             // POSTが成功したが、レスポンスステータスが異常な場合の処理を行う
@@ -182,7 +183,7 @@ const deleteReservationShop = async (reservationId, reservationName) => {
             // DELETEが成功した場合の処理を追加
             if (response.status === 200) {
                 // 予約一覧を再取得
-                await reservationStore.fetchReservationByUserId(1) // TODO::user_id仮置き
+                await reservationStore.fetchReservationByUserId(userId)
                 reservations.value = reservationStore.reservations
             } else {
                 // DELETEが成功したが、レスポンスステータスが異常な場合の処理を行う
@@ -200,7 +201,7 @@ const postRating = async () => {
         const response = await axios.post(import.meta.env.VITE_API_URL + '/rating', {
             shop_id: ratingShopId.value,
             reservation_id: ratingReservationId.value,
-            user_id: 1, // TODO::user_id仮置き
+            user_id: userId,
             rating: rating.value,
             comment: comment.value,
         });
@@ -208,7 +209,7 @@ const postRating = async () => {
         // POSTが成功した場合の処理を追加
         if (response.status === 201) {
             // 予約一覧を再取得
-            await reservationStore.fetchReservationByUserId(1) // TODO::user_id仮置き
+            await reservationStore.fetchReservationByUserId(userId)
             reservations.value = reservationStore.reservations
 
             // レビュー投稿モーダルを閉じる
@@ -233,11 +234,11 @@ const openRating = async (reservationId, shopId) => {
 
 onMounted(async () => {
     // 予約一覧を取得
-    await reservationStore.fetchReservationByUserId(1) // TODO::user_id仮置き
+    await reservationStore.fetchReservationByUserId(userId)
     reservations.value = reservationStore.reservations
 
     // お気に入り一覧を取得
-    await favoriteStore.fetchFavoriteByUserId(1) // TODO::user_id仮置き
+    await favoriteStore.fetchFavoriteByUserId(userId)
     favorites.value = favoriteStore.favorites
 
     // ローディングフラグをtrueにする
