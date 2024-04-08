@@ -123,7 +123,7 @@ git clone git@github.com:riki-fuku/rese-laravel-app.git
 
 2.  必要なツールをインストール
 
-[Vue環境構築手順](https://github.com/riki-fuku/rese-vue-app/issues/1)
+[Vue環境構築手順](https://github.com/riki-fuku/rese-vue-app/wiki/Vue%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89%E6%89%8B%E9%A0%86)
 
 不要であれば次の手順に進む
 
