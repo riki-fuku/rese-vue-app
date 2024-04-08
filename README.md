@@ -41,7 +41,7 @@ Rese
 
 #### 本番環境(一般ユーザー)
 
-https://d2aqnqqkh4vm3z.cloudfront.net/
+http://rese-vue-app.s3-website-ap-northeast-1.amazonaws.com
 
 | ユーザー名 | メールアドレス | パスワード |
 | ---------- | -------------- | ---------- |
@@ -49,7 +49,7 @@ https://d2aqnqqkh4vm3z.cloudfront.net/
 
 #### 本番環境(一般ユーザー)
 
-https://d2aqnqqkh4vm3z.cloudfront.net/agent/
+http://rese-vue-app.s3-website-ap-northeast-1.amazonaws.com/agent/
 
 | ユーザー名 | メールアドレス  | パスワード |
 | ---------- | --------------- | ---------- |
@@ -57,7 +57,7 @@ https://d2aqnqqkh4vm3z.cloudfront.net/agent/
 
 #### 本番環境(一般ユーザー)
 
-https://d2aqnqqkh4vm3z.cloudfront.net/admin/
+http://rese-vue-app.s3-website-ap-northeast-1.amazonaws.com/admin/
 
 | ユーザー名 | メールアドレス  | パスワード |
 | ---------- | --------------- | ---------- |
@@ -123,7 +123,7 @@ git clone git@github.com:riki-fuku/rese-laravel-app.git
 
 2.  必要なツールをインストール
 
-[Vue環境構築手順](https://github.com/riki-fuku/rese-vue-app/wiki/Vue%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89%E6%89%8B%E9%A0%86)
+[Vue 環境構築手順](https://github.com/riki-fuku/rese-vue-app/wiki/Vue%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89%E6%89%8B%E9%A0%86)
 
 不要であれば次の手順に進む
 
@@ -133,10 +133,10 @@ git clone git@github.com:riki-fuku/rese-laravel-app.git
 cd rese-laravel-app
 ```
 
-4. .envを必要に応じて、接続情報やその他の設定を変更します。
+4. .env を必要に応じて、接続情報やその他の設定を変更します。
    本番環境がコメントアウトの状態で、ローカル環境が有効になっていれば問題ない
 
-5.  npm でプロジェクトのインストール
+5. npm でプロジェクトのインストール
 
 ```
 npm install
@@ -159,15 +159,15 @@ VITE v3.2.8  ready in 248 ms
 
 7. ブラウザで URL にアクセスします。
 
-6で実行された結果に表示される local の URL にアクセス
+6 で実行された結果に表示される local の URL にアクセス
 
 ```
 http://localhost:5173/
 ```
 
-環境構築が完了したら、Vueアプリケーションを開発する準備が整いました。
+環境構築が完了したら、Vue アプリケーションを開発する準備が整いました。
 
-画面の表示を行いたい場合は Laravelアプリケーションの起動が必要なためLaravelのリポジトリを確認してください。
+画面の表示を行いたい場合は Laravel アプリケーションの起動が必要なため Laravel のリポジトリを確認してください。
 
 [Laravel(バックエンド)のリポジトリ](https://github.com/riki-fuku/rese-laravel-app)
 
