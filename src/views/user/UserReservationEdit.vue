@@ -3,86 +3,97 @@
 
     <v-main color="gray-lighten-2">
         <v-container fluid width="100%" v-if="loading">
-            <div class="d-flex">
+            <v-row class="d-flex">
 
-                <!-- 店舗詳細表示部分 -->
-                <v-sheet class="px-3" width="50vw">
-                    <v-sheet class="d-flex">
-                        <v-btn @click="router.go(-1)">
-                            <v-icon>mdi-chevron-left</v-icon>
-                        </v-btn>
-                        <p class="ml-4 py-1 text-h5">{{ reservation.shop.name }}</p>
+                <v-col cols="12" sm="12" lg="6">
+                    <!-- 店舗詳細表示部分 -->
+                    <v-sheet class="px-3">
+                        <v-sheet class="d-flex">
+                            <v-btn @click="router.go(-1)">
+                                <v-icon>mdi-chevron-left</v-icon>
+                            </v-btn>
+                            <p class="ml-4 py-1 text-h5">{{ reservation.shop.name }}</p>
+                        </v-sheet>
+                        <v-img :src="reservation.shop.image_url" class="mt-3" contain="false" />
+
+                        <v-sheet class="mt-3 d-flex">
+                            <p>#{{ reservation.shop.area.name }}</p>
+                            <p class="ml-2">#{{ reservation.shop.genre.name }}</p>
+                        </v-sheet>
+
+                        <v-sheet class="mt-3">
+                            <p>{{ reservation.shop.description }}</p>
+                        </v-sheet>
                     </v-sheet>
-                    <v-img :src="reservation.shop.image_url" class="mt-3" contain="false" />
 
-                    <v-sheet class="mt-3 d-flex">
-                        <p>#{{ reservation.shop.area.name }}</p>
-                        <p class="ml-2">#{{ reservation.shop.genre.name }}</p>
+                </v-col>
+                <v-col cols="12" sm="12" lg="6">
+
+                    <!-- 予約変更入力フォーム -->
+                    <v-sheet class="bg-blue-accent-3 rounded" style="position: relative;">
+                        <form @submit.prevent="submit">
+                            <p class="pa-5 text-h5">予約変更</p>
+
+                            <!-- 入力フォーム -->
+                            <div class="mx-5">
+                                <!-- 予約日時 -->
+                                <input type="date" class="px-2 py-1 w-50 bg-white rounded"
+                                    v-model="reservationDate.value.value" :rules="reservationDate.value.rules"
+                                    label="予約日">
+                                <p class="pt-1 pb-2 text-deep-orange-accent-1">{{ reservationDate.errorMessage.value }}
+                                </p>
+
+                                <!-- 予約時間 -->
+                                <select class="px-2 py-1 w-50 bg-white rounded" v-model="reservationTime.value.value">
+                                    <option v-for="reservationTime in reservationTimeList" :value="reservationTime"
+                                        :key="reservationTime">
+                                        {{ reservationTime }}
+                                    </option>
+                                </select>
+                                <p class="pt-1 pb-2 text-deep-orange-accent-1">{{ reservationTime.errorMessage.value }}
+                                </p>
+
+                                <!-- 予約人数 -->
+                                <select class="px-2 py-1 w-50 bg-white rounded" v-model="partySize.value.value">
+                                    <option v-for="partySize in partySizeList" :value="partySize" :key="partySize">
+                                        {{ partySize }}人
+                                    </option>
+                                </select>
+                                <p class="pt-1 pb-2 text-deep-orange-accent-1">{{ partySize.errorMessage.value }}</p>
+                            </div>
+
+                            <!-- 予約確認表示 -->
+                            <v-sheet class="my-4 mx-5 pa-5 rounded bg-blue-accent-2" height="200px">
+                                <table>
+                                    <tr>
+                                        <th class="text-left" style="width: 50%;">Shop</th>
+                                        <td>{{ reservation.shop.name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-left" style="width: 50%;">Date</th>
+                                        <td>{{ reservationDate.value.value }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-left" style="width: 50%;">Time</th>
+                                        <td>{{ reservationTime.value.value }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-left" style="width: 50%;">Number</th>
+                                        <td>{{ partySize.value.value ? partySize.value.value + '人' : '' }}</td>
+                                    </tr>
+                                </table>
+                            </v-sheet>
+
+                            <br><br>
+
+                            <v-btn class="me-4 w-100 bg-blue-accent-4" type="submit"
+                                style="position: absolute;bottom: 0;">
+                                予約変更する
+                            </v-btn>
+                        </form>
                     </v-sheet>
-
-                    <v-sheet class="mt-3">
-                        <p>{{ reservation.shop.description }}</p>
-                    </v-sheet>
-                </v-sheet>
-
-                <!-- 予約変更入力フォーム -->
-                <v-sheet class="bg-blue-accent-3 rounded" width="50vw" style="position: relative;">
-                    <form @submit.prevent="submit">
-                        <p class="pa-5 text-h5">予約変更</p>
-
-                        <!-- 入力フォーム -->
-                        <div class="mx-5">
-                            <!-- 予約日時 -->
-                            <input type="date" class="px-2 py-1 w-50 bg-white rounded"
-                                v-model="reservationDate.value.value" :rules="reservationDate.value.rules" label="予約日">
-                            <p class="pt-1 pb-2 text-deep-orange-accent-1">{{ reservationDate.errorMessage.value }}</p>
-
-                            <!-- 予約時間 -->
-                            <select class="px-2 py-1 w-50 bg-white rounded" v-model="reservationTime.value.value">
-                                <option v-for="reservationTime in reservationTimeList" :value="reservationTime"
-                                    :key="reservationTime">
-                                    {{ reservationTime }}
-                                </option>
-                            </select>
-                            <p class="pt-1 pb-2 text-deep-orange-accent-1">{{ reservationTime.errorMessage.value }}</p>
-
-                            <!-- 予約人数 -->
-                            <select class="px-2 py-1 w-50 bg-white rounded" v-model="partySize.value.value">
-                                <option v-for="partySize in partySizeList" :value="partySize" :key="partySize">
-                                    {{ partySize }}人
-                                </option>
-                            </select>
-                            <p class="pt-1 pb-2 text-deep-orange-accent-1">{{ partySize.errorMessage.value }}</p>
-                        </div>
-
-                        <!-- 予約確認表示 -->
-                        <div class="my-4 mx-5 pa-5 rounded bg-blue-accent-2">
-                            <table>
-                                <tr>
-                                    <th class="text-left" style="width: 50%;">Shop</th>
-                                    <td>{{ reservation.shop.name }}</td>
-                                </tr>
-                                <tr>
-                                    <th class="text-left" style="width: 50%;">Date</th>
-                                    <td>{{ reservationDate.value.value }}</td>
-                                </tr>
-                                <tr>
-                                    <th class="text-left" style="width: 50%;">Time</th>
-                                    <td>{{ reservationTime.value.value }}</td>
-                                </tr>
-                                <tr>
-                                    <th class="text-left" style="width: 50%;">Number</th>
-                                    <td>{{ partySize.value.value ? partySize.value.value + '人' : '' }}</td>
-                                </tr>
-                            </table>
-                        </div>
-
-                        <v-btn class="me-4 w-100 bg-blue-accent-4" type="submit" style="position: absolute;bottom: 0;">
-                            予約変更する
-                        </v-btn>
-                    </form>
-                </v-sheet>
-            </div>
+                </v-col>
+            </v-row>
         </v-container>
 
         <v-container v-else>
