@@ -61,11 +61,15 @@
                 </v-row>
 
                 <div class="w-50 mx-auto">
-                    <v-btn text :to="`/agent/reservations`" class="mr-10 my-5 bg-teal-lighten-1">予約一覧</v-btn>
-                    <v-btn text :to="`/agent/payment/qrcode`" class="my-5 bg-teal-lighten-1">決済用QRコード表示</v-btn>
-                    <br>
-                    <v-btn text :to="`/agent/shop/edit`" class="mr-10 my-5 bg-teal-lighten-1">店舗情報編集</v-btn>
-                    <v-btn text :to="`/agent/mail`" class="my-5 bg-teal-lighten-1">お知らせメール作成</v-btn>
+                    <div class="d-flex justify-center">
+                        <v-btn text :to="`/agent/reservations`" class="mr-10 my-5 bg-teal-lighten-1">予約一覧</v-btn>
+                        <v-btn text :to="`/agent/payment/qrcode`" class="my-5 bg-teal-lighten-1">決済用QRコード表示</v-btn>
+                    </div>
+
+                    <div class="d-flex justify-center">
+                        <v-btn text :to="`/agent/shop/edit`" class="mr-10 my-5 bg-teal-lighten-1">店舗情報編集</v-btn>
+                        <v-btn text :to="`/agent/mail`" class="my-5 bg-teal-lighten-1">お知らせメール作成</v-btn>
+                    </div>
                 </div>
             </v-sheet>
         </v-container>
