@@ -8,7 +8,10 @@
                     <v-card-title class="text-left bg-blue-accent-3 py-4">Login</v-card-title>
                     <div class="px-2">
 
-                        <p class="pa-2 text-red text-left text-h6">{{ errorMessages }}</p>
+                        <p class="pa-2 text-red text-left text-h6" v-for="errorMessage in errorMessages"
+                            :key="errorMessage">
+                            {{ errorMessage }}
+                        </p>
 
                         <v-card-text class="flex mt-5">
                             <v-icon class="text-h3">
@@ -50,7 +53,7 @@ const loading = ref(false) // ローディングフラグ
 
 const email = ref('')
 const password = ref('')
-const errorMessages = ref('')
+const errorMessages = ref([])
 
 // ログイン処理
 const login = async () => {
@@ -69,7 +72,19 @@ const login = async () => {
                 router.push({ name: 'UserHome' })
             }).catch((error) => {
                 // ログイン失敗
-                errorMessages.value = error.response.data.message
+                // エラーメッセージリセット
+                errorMessages.value = []
+                errorMessages.value.push(error.response.data.message);
+
+                if (error.response.data.errors.email) {
+                    errorMessages.value.push(error.response.data.errors.email[0])
+                    return
+                }
+
+                if (error.response.data.errors.password) {
+                    errorMessages.value.push(error.response.data.errors.password[0])
+                    return
+                }
             })
         }
     })

@@ -36,6 +36,12 @@
 
                             <!-- 入力フォーム -->
                             <div class="mx-5">
+
+                                <p class="pa-2 text-red text-left text-h6" v-for="errorMessage in errorMessages"
+                                    :key="errorMessage">
+                                    {{ errorMessage }}
+                                </p>
+
                                 <!-- 予約日時 -->
                                 <input type="date" class="px-2 py-1 w-50 bg-white rounded"
                                     v-model="reservationDate.value.value" :rules="reservationDate.value.rules"
@@ -119,6 +125,7 @@ const userId = localStorage.getItem('user_id') // ユーザーID
 const shop = ref(null) // 表示する店舗情報
 const reservationTimeList = ref(null) // 予約時間の選択肢
 const partySizeList = ref(1) // 予約人数の選択肢
+const errorMessages = ref([]) // エラーメッセージ
 
 // バリデーション設定
 const { handleSubmit } = useForm({
@@ -168,7 +175,23 @@ const submit = handleSubmit(values => {
             state: { message: 'ご予約ありがとうございます' }
         })
     }).catch(function (error) {
-        console.log(error);
+        // エラーメッセージリセット
+        errorMessages.value = []
+
+        if (error.response.data.errors.reservation_date) {
+            errorMessages.value.push(error.response.data.errors.reservation_date[0])
+            return
+        }
+
+        if (error.response.data.errors.reservation_time) {
+            errorMessages.value.push(error.response.data.errors.reservation_time[0])
+            return
+        }
+
+        if (error.response.data.errors.party_size) {
+            errorMessages.value.push(error.response.data.errors.party_size[0])
+            return
+        }
     });
 })
 
