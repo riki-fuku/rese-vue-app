@@ -1,7 +1,7 @@
 <template>
     <UserGuestMenu />
 
-    <v-main color="gray-lighten-2">
+    <v-main>
         <v-container fluid v-if="loading">
             <v-sheet class="md:w-50 w-75 mx-auto my-16 py-16 text-center text-h5 rounded">
                 <v-card>

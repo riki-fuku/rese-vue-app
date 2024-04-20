@@ -1,7 +1,7 @@
 <template>
     <AgentMenu />
 
-    <v-main color="gray-lighten-2">
+    <v-main>
         <v-container fluid width="100%" v-if="loading">
             <p class="pa-5 text-h5 font-weight-bold">予約一覧</p>
 

@@ -1,7 +1,7 @@
 <template>
     <AgentMenu />
 
-    <v-main color="gray-lighten-2">
+    <v-main>
         <v-container fluid width="100%" v-if="loading">
             <v-sheet class="mx-auto my-15 pa-10 bg-grey-lighten-3 rounded">
                 <v-row class="d-flex">

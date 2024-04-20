@@ -1,7 +1,7 @@
 <template>
     <UserMenu />
 
-    <v-main color="gray-lighten-2">
+    <v-main>
         <v-container fluid width="100%" v-if="loading">
             <p class="pa-5 text-h4">来店確認用QR</p>
             <div class="text-center">

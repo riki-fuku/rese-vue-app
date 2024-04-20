@@ -1,7 +1,7 @@
 <template>
     <UserMenu />
 
-    <v-main color="gray-lighten-2">
+    <v-main>
         <v-container fluid class="w-50 mt-10 mx-auto">
 
             <p class="pa-5 text-h5">支払い画面</p>
