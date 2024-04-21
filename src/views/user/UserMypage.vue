@@ -5,7 +5,7 @@
         <v-container fluid width="100%" v-if="loading">
 
             <!-- ユーザー名表示部分 -->
-            <v-sheet class="ml-auto" width="50%">
+            <v-sheet class="ml-auto transparent-input" width="50%">
                 <p class="pa-5 text-h5 font-weight-bold" width="50%">{{ userName }}</p>
             </v-sheet>
 

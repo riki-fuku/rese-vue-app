@@ -3,7 +3,7 @@
 
     <v-main>
         <v-container fluid v-if="loading">
-            <v-sheet class="md:w-50 w-75 mx-auto my-16 py-16 text-center text-h5 rounded">
+            <v-sheet class="md:w-50 w-75 mx-auto my-16 py-16 text-center text-h5 rounded transparent-input">
                 <v-card>
                     <v-card-title class="text-left bg-teal-lighten-1 py-4">Login</v-card-title>
                     <div class="px-2">

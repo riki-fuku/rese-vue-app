@@ -7,8 +7,8 @@
 
                 <v-col cols="12" sm="12" lg="6">
                     <!-- 店舗詳細表示部分 -->
-                    <v-sheet class="px-3">
-                        <v-sheet class="d-flex">
+                    <v-sheet class="px-3 transparent-input">
+                        <v-sheet class="d-flex transparent-input">
                             <v-btn @click="router.go(-1)">
                                 <v-icon>mdi-chevron-left</v-icon>
                             </v-btn>
@@ -16,12 +16,12 @@
                         </v-sheet>
                         <v-img :src="reservation.shop.image_url" class="mt-3" contain="false" />
 
-                        <v-sheet class="mt-3 d-flex">
+                        <v-sheet class="mt-3 d-flex transparent-input">
                             <p>#{{ reservation.shop.area.name }}</p>
                             <p class="ml-2">#{{ reservation.shop.genre.name }}</p>
                         </v-sheet>
 
-                        <v-sheet class="mt-3">
+                        <v-sheet class="mt-3 transparent-input">
                             <p>{{ reservation.shop.description }}</p>
                         </v-sheet>
                     </v-sheet>

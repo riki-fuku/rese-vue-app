@@ -5,3 +5,9 @@
 </template>
 
 <script setup></script>
+
+<style>
+.transparent-input {
+  background-color: transparent !important;
+}
+</style>
