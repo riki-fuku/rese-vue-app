@@ -1,15 +1,14 @@
 <template>
     <UserMenu />
 
-    <v-main color="gray-lighten-2">
+    <v-main>
         <v-container fluid width="100%" v-if="loading">
             <v-row class="d-flex">
 
                 <v-col cols="12" sm="12" lg="6">
-
                     <!-- 店舗詳細表示部分 -->
-                    <v-sheet>
-                        <v-sheet class="d-flex">
+                    <v-sheet class="transparent-input">
+                        <v-sheet class="d-flex transparent-input">
                             <v-btn @click="router.go(-1)">
                                 <v-icon>mdi-chevron-left</v-icon>
                             </v-btn>
@@ -17,17 +16,40 @@
                         </v-sheet>
                         <v-img :src="shop.image_url" class="mt-3" contain="false" />
 
-                        <v-sheet class="mt-3 d-flex">
+                        <v-sheet class="mt-3 d-flex transparent-input">
                             <p>#{{ shop.area.name }}</p>
                             <p class="ml-2">#{{ shop.genre.name }}</p>
                         </v-sheet>
 
-                        <v-sheet class="mt-3">
+                        <v-sheet class="mt-3 transparent-input">
                             <p>{{ shop.description }}</p>
+                        </v-sheet>
+
+                        <v-sheet class="my-5 transparent-input">
+                            <p v-if="!userRatingFlag" class="underline" @click="redirectToRating(shop.id)">
+                                口コミを投稿する
+                            </p>
                         </v-sheet>
                     </v-sheet>
 
+                    <!-- 口コミ一覧部分 -->
+                    <p class="py-3 bg-blue-accent-3 text-center rounded">全ての口コミ情報</p>
+                    <v-sheet class="my-10 transparent-input">
+                        <v-row class="border-b">
+                            <v-col cols="12" v-for="rating in ratings" :key="rating.id" class="border-t">
+                                <div v-if="rating.user_id == userId" class="flex justify-end">
+                                    <p class="underline" @click="redirectToRating(shop.id)">口コミを編集</p>
+                                    <p class="ml-5 underline" @click="deleteRating(rating.id)">口コミを削除</p>
+                                </div>
+                                <v-rating v-model="rating.rating" color="blue-accent-4" readonly></v-rating>
+                                <p>{{ rating.comment }}</p>
+                                <v-img v-if="rating.image_url" :src="rating.image_url" class="mt-3" contain="false" />
+                            </v-col>
+                        </v-row>
+                    </v-sheet>
+
                 </v-col>
+
                 <v-col cols="12" sm="12" lg="6">
                     <!-- 予約入力フォーム -->
                     <v-sheet class="bg-blue-accent-3 rounded" style="position: relative;">
@@ -112,6 +134,7 @@
 import { ref, onMounted } from 'vue'
 import UserMenu from '@/components/UserMenu.vue'
 import { useShopStore } from '@/stores/shops'
+import { useRatingStore } from '@/stores/ratings'
 import { useField, useForm } from 'vee-validate'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
@@ -119,10 +142,13 @@ import axios from 'axios'
 const route = useRoute()
 const router = useRouter()
 const shopStore = useShopStore()
+const ratingStore = useRatingStore()
 
 const loading = ref(false) // ローディングフラグ
 const userId = localStorage.getItem('user_id') // ユーザーID
 const shop = ref(null) // 表示する店舗情報
+const userRatingFlag = ref('') // ユーザーが口コミを投稿済みかの判定
+const ratings = ref([]) // 口コミ一覧
 const reservationTimeList = ref(null) // 予約時間の選択肢
 const partySizeList = ref(1) // 予約人数の選択肢
 const errorMessages = ref([]) // エラーメッセージ
@@ -228,6 +254,32 @@ const getPartySizeList = () => {
     return partySizeList
 }
 
+// 口コミ画面に遷移する
+const redirectToRating = (shopId) => {
+    router.push({ name: 'UserRating', params: { shopId: shopId } })
+}
+
+// 口コミ削除処理
+const deleteRating = async (ratingId) => {
+    if (confirm(`口コミを削除しますか？`)) {
+        try {
+            const response = await axios.delete(import.meta.env.VITE_API_URL + `/rating/${ratingId}`);
+
+            // DELETEが成功した場合の処理を追加
+            if (response.status === 200) {
+                // 口コミ一覧を再取得
+                await ratingStore.fetchRatingsByShopId(route.params.shopId)
+                ratings.value = ratingStore.ratings
+            } else {
+                // DELETEが成功したが、レスポンスステータスが異常な場合の処理を行う
+                console.error("DELETE request failed:", response.status);
+            }
+        } catch (error) {
+            console.error("DELETE request failed:", error);
+        }
+    }
+};
+
 onMounted(async () => {
     // 店舗情報を取得
     await shopStore.fetchShopById(route.params.shopId)
@@ -237,6 +289,18 @@ onMounted(async () => {
         return
     }
     shop.value = shopStore.shop
+
+    // ユーザーの評価を取得
+    await ratingStore.fetchRatingByUserIdAndShopId(userId, route.params.shopId)
+    if (Object.keys(ratingStore.rating).length == 0) {
+        userRatingFlag.value = false
+    } else {
+        userRatingFlag.value = true
+    }
+
+    // 店舗の評価一覧を取得
+    await ratingStore.fetchRatingsByShopId(route.params.shopId)
+    ratings.value = ratingStore.ratings
 
     // 営業開始時間と終了時間を15分刻みで配列に格納
     reservationTimeList.value = getTimeList(shop.value.opening_time, shop.value.closing_time)
