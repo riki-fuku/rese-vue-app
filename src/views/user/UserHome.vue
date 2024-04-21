@@ -37,7 +37,7 @@
                         <v-img :src="shop.image_url" class="" height="200px" contain="false"
                             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)">
                         </v-img>
-                        <v-card-title>{{ shop.name }}{{ shop.ratings.length }}</v-card-title>
+                        <v-card-title>{{ shop.name }}</v-card-title>
                         <v-card-subtitle class="pb-0">
                             <v-sheet>
                                 # {{ shop.area.name }}
