@@ -1,10 +1,16 @@
 <template>
     <UserMenu />
 
-    <v-main color="gray-lighten-2">
+    <v-main>
         <v-container fluid width="100%" v-if="loading">
             <!-- 検索条件 -->
             <v-row class="search">
+
+                <v-col cols="12" sm="6" lg="3">
+                    <v-select v-model="selectedSort" item-title="name" item-value="action" :items="sorts" label="並び替え">
+                    </v-select>
+                </v-col>
+
                 <v-col cols="12" sm="6" lg="3">
                     <v-select v-model="selectedArea" item-title="name" item-value="name" :items="areas"
                         label="All area">
@@ -31,7 +37,7 @@
                         <v-img :src="shop.image_url" class="" height="200px" contain="false"
                             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)">
                         </v-img>
-                        <v-card-title>{{ shop.name }}</v-card-title>
+                        <v-card-title>{{ shop.name }}{{ shop.ratings.length }}</v-card-title>
                         <v-card-subtitle class="pb-0">
                             <v-sheet>
                                 # {{ shop.area.name }}
@@ -70,15 +76,38 @@ const areaStore = useAreaStore();
 const genreStore = useGenreStore();
 
 const loading = ref(false) // ローディングフラグ
+const sorts = ref([
+    { name: '並び替え:ランダム', action: 'randomSort' },
+    { name: '並び替え:評価が高い順', action: 'highRatingSort' },
+    { name: '並び替え:評価が低い順', action: 'lowRatingSort' },
+])
 const shops = ref([])
 const areas = ref([])
 const genres = ref([])
+const selectedSort = ref(null)
 const selectedArea = ref(null)
 const selectedGenre = ref(null)
 const searchText = ref('')
 
 // 検索条件に合致する店舗を返す
 const filteredShops = computed(() => {
+    if (selectedSort.value) {
+        switch (selectedSort.value) {
+            case 'randomSort':
+                // ランダムに並び替える
+                shuffle(shops.value)
+                break
+            case 'highRatingSort':
+                // 高評価数順に並び替える(0の場合は最後に表示される)
+                highRatingSort(shops.value)
+                break
+            case 'lowRatingSort':
+                // 低評価数順に並び替える(0の場合は最初に表示される)
+                lowRatingSort(shops.value)
+                break
+        }
+    }
+
     return shops.value.filter(shop => {
         let areaMatch = true
         let genreMatch = true
@@ -120,6 +149,41 @@ const toggleFavorite = async (shopId) => {
         console.error("POST request failed:", error);
     }
 };
+
+// 配列をシャッフルする
+const shuffle = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+// 高評価数順に並び替える(0の場合は最後に表示される)
+const highRatingSort = (array) => {
+    array.sort((a, b) => {
+        if (a.ratings.length === 0) {
+            return 1
+        } else if (b.ratings.length === 0) {
+            return -1
+        } else {
+            return b.ratings.length - a.ratings.length
+        }
+    })
+}
+
+// 低評価数順に並び替える(0の場合は最初に表示される)
+const lowRatingSort = (array) => {
+    array.sort((a, b) => {
+        if (a.ratings.length === 0) {
+            return 1
+        } else if (b.ratings.length === 0) {
+            return -1
+        } else {
+            return a.ratings.length - b.ratings.length
+        }
+    })
+}
 
 onMounted(async () => {
     await shopStore.fetchShops()
