@@ -6,7 +6,7 @@
             <p class="pa-5 text-h5 font-weight-bold">決済用QRコード表示</p>
 
             <div class="text-center">
-                <vue-qrcode :value="url" :options="{ width: 600 }" />
+                <vue-qrcode :value="url" />
             </div>
         </v-container>
 

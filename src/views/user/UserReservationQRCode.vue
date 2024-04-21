@@ -5,7 +5,7 @@
         <v-container fluid width="100%" v-if="loading">
             <p class="pa-5 text-h4">来店確認用QR</p>
             <div class="text-center">
-                <vue-qrcode :value="url" :options="{ width: 600 }" />
+                <vue-qrcode :value="url" />
             </div>
         </v-container>
 
