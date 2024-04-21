@@ -11,6 +11,7 @@ import UserReservationEdit from '@/views/user/UserReservationEdit.vue'
 import UserReservationQRCode from '@/views/user/UserReservationQRCode.vue'
 import UserPayment from '@/views/user/UserPayment.vue'
 import UserComplete from '@/views/user/UserComplete.vue'
+import UserRating from '@/views/user/UserRating.vue'
 
 // 店舗代表者
 import AgentLogin from '@/views/agent/AgentLogin.vue'
@@ -29,6 +30,8 @@ import AdminHome from '@/views/admin/AdminHome.vue'
 import AdminAgents from '@/views/admin/AdminAgents.vue'
 import AdminMail from '@/views/admin/AdminMail.vue'
 import AdminComplete from '@/views/admin/AdminComplete.vue'
+import AdminRatings from '@/views/admin/AdminRatings.vue'
+import AdminShops from '@/views/admin/AdminShops.vue'
 
 // 一般ユーザーログイン確認
 function isUserAuthenticated() {
@@ -102,6 +105,12 @@ const routes = [
         path: '/payment/:shopId',
         name: 'UserPayment',
         component: UserPayment,
+        meta: { requiresUserAuth: true }
+    },
+    {
+        path: '/rating/:shopId',
+        name: 'UserRating',
+        component: UserRating,
         meta: { requiresUserAuth: true }
     },
     {
@@ -190,6 +199,18 @@ const routes = [
         path: '/admin/mail',
         name: 'AdminMail',
         component: AdminMail,
+        meta: { requiresAdminAuth: true }
+    },
+    {
+        path: '/admin/ratings/:shopId',
+        name: 'AdminRatings',
+        component: AdminRatings,
+        meta: { requiresAdminAuth: true }
+    },
+    {
+        path: '/admin/shops',
+        name: 'AdminShops',
+        component: AdminShops,
         meta: { requiresAdminAuth: true }
     },
     {

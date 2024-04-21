@@ -1,12 +1,13 @@
 <template>
     <AdminMenu />
 
-    <v-main color="gray-lighten-2">
+    <v-main>
         <v-container fluid width="100%" v-if="loading">
             <v-sheet class="w-50 mx-auto my-15 pa-10 bg-grey-lighten-3 rounded">
                 <div class="d-flex flex-column align-center">
                     <v-btn text :to="`/admin/agents`" class="my-5 bg-deep-orange-darken-1">店舗代表者管理画面</v-btn>
                     <v-btn text :to="`/admin/mail`" class="my-5 bg-deep-orange-darken-1">メール送信画面</v-btn>
+                    <v-btn text :to="`/admin/shops`" class="my-5 bg-deep-orange-darken-1">店舗一覧画面</v-btn>
                 </div>
             </v-sheet>
         </v-container>
