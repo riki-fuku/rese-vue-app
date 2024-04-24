@@ -185,6 +185,14 @@ Github Actions
 
 mian ブランチにプッシュされた場合自動で AWS S3 の環境にデプロイされます
 
+## 店舗登録用CSV
+
+以下を参考にしてください。
+
+[店舗登録用CSV参考wiki](https://github.com/riki-fuku/rese-vue-app/wiki/%E5%BA%97%E8%88%97%E7%99%BB%E9%8C%B2%E7%94%A8CSV%E5%8F%82%E8%80%83wiki)
+
 ## 参考
 
 [福島さん Web 開発上級 生徒様用案件シート Ver.2.0](https://docs.google.com/spreadsheets/d/1IF4y5eBm6zgM_64wsPAc_UwLsdiPoZTR2HceWD0icgg/edit#gid=935968078)
+
+[追加実装](https://estra-inc.notion.site/Pro-c4ce694783044672a7acda0fc2483969)
