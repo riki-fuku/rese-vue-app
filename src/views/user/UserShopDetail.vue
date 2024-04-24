@@ -52,7 +52,7 @@
 
                 <v-col cols="12" sm="12" lg="6">
                     <!-- 予約入力フォーム -->
-                    <v-sheet class="bg-blue-accent-3 rounded" style="position: relative;">
+                    <v-sheet class="bg-blue-accent-3 rounded mb-10" style="position: relative;">
                         <form @submit.prevent="submit">
                             <p class="pa-5 text-h5">予約</p>
 

@@ -64,7 +64,9 @@
                                 <v-img :src="image_url" class="mt-3" contain="false" />
                             </div>
 
-                            <div class="mt-5 py-10 bg-white text-center" @click="openFilePicker">
+                            <div class="mt-5 py-10 text-center" @click="openFilePicker" @dragover.prevent="dragOver"
+                                @dragleave="dragLeave" @drop.prevent="handleFileChange"
+                                :class="{ 'bg-green-lighten-1': isDragOver, 'bg-white': !isDragOver }">
                                 <p class="text-h6">クリックして写真を追加</p>
                                 <p>またはドロップアンドドロップ</p>
                                 <input type="file" ref="fileInput" style="display: none" accept="image/*"
@@ -128,6 +130,7 @@ const image = reactive({ value: [], error_message: '' }) // 画像
 const image_url = ref('') // 画像URL(更新時に使用)
 const fileInput = ref(null);
 const selectedImage = reactive({ value: { name: '' } });
+const isDragOver = ref(false); // ドラッグオーバーフラグ
 const errorMessage = ref('') // エラーメッセージ
 
 // ファイル選択ダイアログを開く
@@ -137,10 +140,12 @@ const openFilePicker = () => {
 
 // ファイル選択時の処理
 const handleFileChange = (event) => {
-    const file = event.target.files[0];
+    const files = event.target.files || event.dataTransfer.files;
+    const file = files[0];  // 1つのファイルのみ選択可能
     if (file) {
         selectedImage.value = file;
         image.error_message = '';
+        dragLeave(event);
     } else {
         selectedImage.value = { name: '' };
     }
@@ -232,6 +237,18 @@ const validateImage = () => {
 
     return true;
 }
+
+// ドラッグオーバー時の処理
+const dragOver = (event) => {
+    event.preventDefault();
+    isDragOver.value = true;
+};
+
+// ドラッグリーブ時の処理
+const dragLeave = (event) => {
+    event.preventDefault();
+    isDragOver.value = false;
+};
 
 onMounted(async () => {
     // 店舗情報を取得
