@@ -191,6 +191,20 @@ mian ブランチにプッシュされた場合自動で AWS S3 の環境にデ�
 
 [店舗登録用CSV参考wiki](https://github.com/riki-fuku/rese-vue-app/wiki/%E5%BA%97%E8%88%97%E7%99%BB%E9%8C%B2%E7%94%A8CSV%E5%8F%82%E8%80%83wiki)
 
+## ログアウトできない時の対処法
+
+検証ツールより以下を削除
+
+アプリケーション ＞ ストレージ ＞ ローカルストレージ ＞ http://rese-vue-app.s3-website-ap-northeast-1.amazonaws.com/ > キーの中
+
+(一般ユーザー画面)user_auth_token
+
+(店舗代表者画面)agent_auth_token
+
+(管理者画面)admin_auth_token
+
+※現状リフレッシュトークンの実装を行っていないため、ホーム画面を開けていてもAPIの実行ができない状態になることがあります。
+
 ## 参考
 
 [福島さん Web 開発上級 生徒様用案件シート Ver.2.0](https://docs.google.com/spreadsheets/d/1IF4y5eBm6zgM_64wsPAc_UwLsdiPoZTR2HceWD0icgg/edit#gid=935968078)
